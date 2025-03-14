@@ -98,3 +98,49 @@ The final program continuously processes the five-character word, blinking the L
 - Follow the memory address specifications from Lab-1.
 - Refer to the provided flowchart for the detailed sequence of operations.
 
+# Lab-3: Input / Output Interfacing
+
+## Objective
+Learn to interface peripherals (LEDs, pushbutton) with a RISC-V microprocessor by developing a reflex-meter that measures user response time with a resolution of 0.1 millisecond.
+
+## Overview
+This lab involves two main components:
+- **Simple Counter:** A subroutine that continuously counts from 0x00 to 0xFF, displaying the value on the 8 LEDs with a 100ms delay.
+- **Reflex-Meter:** A system that:
+  - Waits for a pseudorandom delay (between 2 and 10 seconds, ±5% tolerance).
+  - Activates an LED (LED_6) to signal the start.
+  - Measures the elapsed time (via a 32-bit counter incremented every 0.1ms) until the user presses the S1 pushbutton.
+  - Displays the 32-bit counter value on the LEDs in 8-bit chunks with 2-second intervals between each display.
+
+## Procedure
+1. **Setup:**
+   - Modify your assembly code to implement a 0.1 millisecond delay routine.
+   - Initialize all 8 LEDs to off.
+
+2. **Simple Counter Subroutine:**
+   - Create a counter that increments from 0x00 to 0xFF, wraps back to 0, and displays each value on the 8 LEDs.
+   - Include a 100ms delay between each increment to verify LED decoding.
+
+3. **Reflex-Meter Implementation:**
+   - **Random Delay Generation:**
+     - Use the provided pseudorandom number subroutine to generate a 16-bit number.
+     - Scale and offset the number to achieve a delay between 2 and 10 seconds (in 0.1ms increments).
+   - **Execution Flow:**
+     - Turn off all LEDs.
+     - Call the delay function using the generated delay value.
+     - Turn on LED_6 to signal the start of the reflex measurement.
+     - Start a 32-bit counter that increments every 0.1ms.
+     - Continuously poll the S1 pushbutton.
+     - Stop the counter when the pushbutton is pressed.
+   - **Output Display:**
+     - Extract and display the least significant 8 bits of the counter value on the LEDs.
+     - Wait for 2 seconds.
+     - Repeat the process to show the next 8 bits, doing so a total of four times until the full 32-bit value is displayed.
+     - After a 5-second pause, restart the process.
+
+## Deliverable
+The final program should demonstrate both the simple LED counter and the complete reflex-meter functionality, accurately measuring user response times and displaying the 32-bit result across the 8 LEDs.
+
+
+
+
